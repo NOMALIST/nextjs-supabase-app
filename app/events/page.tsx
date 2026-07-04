@@ -49,7 +49,7 @@ async function EventsList() {
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">
-                  {new Date(event.eventAt).toLocaleString("ko-KR")}
+                  {new Date(event.event_at).toLocaleString("ko-KR")}
                 </p>
               </CardContent>
             </Card>

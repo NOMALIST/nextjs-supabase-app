@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { MockEvent } from "@/lib/events/types";
+import { EventRow } from "@/lib/events/types";
 import { useState } from "react";
 
 export interface EventFormValues {
@@ -24,14 +24,14 @@ export interface EventFormValues {
   feeInfo: string;
 }
 
-function toFormValues(event?: MockEvent): EventFormValues {
+function toFormValues(event?: EventRow): EventFormValues {
   return {
     title: event?.title ?? "",
-    eventAt: event?.eventAt ?? "",
+    eventAt: event?.event_at ?? "",
     location: event?.location ?? "",
     capacity: event?.capacity != null ? String(event.capacity) : "",
     notice: event?.notice ?? "",
-    feeInfo: event?.feeInfo ?? "",
+    feeInfo: event?.fee_info ?? "",
   };
 }
 
@@ -40,7 +40,7 @@ export function EventForm({
   className,
   ...props
 }: {
-  initialValues?: MockEvent;
+  initialValues?: EventRow;
 } & React.ComponentPropsWithoutRef<"div">) {
   const [values, setValues] = useState<EventFormValues>(
     toFormValues(initialValues)

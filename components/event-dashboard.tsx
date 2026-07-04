@@ -12,18 +12,18 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { calculateSettlement } from "@/lib/events/settlement";
-import { MockEvent, MockRsvp } from "@/lib/events/types";
+import { EventRow, RsvpRow } from "@/lib/events/types";
 import { useState } from "react";
 
 export function EventDashboard({
   event,
   rsvps,
 }: {
-  event: MockEvent;
-  rsvps: MockRsvp[];
+  event: EventRow;
+  rsvps: RsvpRow[];
 }) {
   const [totalCost, setTotalCost] = useState(
-    event.totalCost != null ? String(event.totalCost) : ""
+    event.total_cost != null ? String(event.total_cost) : ""
   );
 
   const attending = rsvps.filter((r) => r.status === "참여");
@@ -122,7 +122,7 @@ export function EventDashboard({
               <div key={rsvp.id} className="flex items-center gap-2 text-sm">
                 <Checkbox
                   id={`paid-${rsvp.id}`}
-                  checked={rsvp.isPaid}
+                  checked={rsvp.is_paid}
                   onCheckedChange={() => {
                     // 입금 상태 변경 연동은 Phase 5(Task 012)에서 처리
                   }}

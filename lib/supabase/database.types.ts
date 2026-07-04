@@ -14,6 +14,48 @@ export type Database = {
   };
   public: {
     Tables: {
+      events: {
+        Row: {
+          capacity: number | null;
+          created_at: string;
+          event_at: string;
+          fee_info: string | null;
+          host_id: string;
+          id: string;
+          location: string;
+          notice: string;
+          slug: string;
+          title: string;
+          total_cost: number | null;
+        };
+        Insert: {
+          capacity?: number | null;
+          created_at?: string;
+          event_at: string;
+          fee_info?: string | null;
+          host_id: string;
+          id?: string;
+          location: string;
+          notice?: string;
+          slug: string;
+          title: string;
+          total_cost?: number | null;
+        };
+        Update: {
+          capacity?: number | null;
+          created_at?: string;
+          event_at?: string;
+          fee_info?: string | null;
+          host_id?: string;
+          id?: string;
+          location?: string;
+          notice?: string;
+          slug?: string;
+          title?: string;
+          total_cost?: number | null;
+        };
+        Relationships: [];
+      };
       instruments: {
         Row: {
           id: number;
@@ -58,6 +100,44 @@ export type Database = {
           username?: string;
         };
         Relationships: [];
+      };
+      rsvps: {
+        Row: {
+          contact: string | null;
+          created_at: string;
+          event_id: string;
+          id: string;
+          is_paid: boolean;
+          name: string;
+          status: string;
+        };
+        Insert: {
+          contact?: string | null;
+          created_at?: string;
+          event_id: string;
+          id?: string;
+          is_paid?: boolean;
+          name: string;
+          status: string;
+        };
+        Update: {
+          contact?: string | null;
+          created_at?: string;
+          event_id?: string;
+          id?: string;
+          is_paid?: boolean;
+          name?: string;
+          status?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "rsvps_event_id_fkey";
+            columns: ["event_id"];
+            isOneToOne: false;
+            referencedRelation: "events";
+            referencedColumns: ["id"];
+          },
+        ];
       };
     };
     Views: {

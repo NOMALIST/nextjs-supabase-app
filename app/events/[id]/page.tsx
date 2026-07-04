@@ -23,7 +23,7 @@ async function EventDashboardContent({
     notFound();
   }
 
-  const rsvps = mockRsvps.filter((r) => r.eventId === id);
+  const rsvps = mockRsvps.filter((r) => r.event_id === id);
 
   return <EventDashboard event={event} rsvps={rsvps} />;
 }

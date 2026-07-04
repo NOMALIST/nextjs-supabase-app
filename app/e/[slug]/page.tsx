@@ -24,7 +24,7 @@ async function PublicEventContent({
   }
 
   const confirmedCount = mockRsvps.filter(
-    (r) => r.eventId === event.id && r.status === "참여"
+    (r) => r.event_id === event.id && r.status === "참여"
   ).length;
 
   return (
@@ -35,10 +35,10 @@ async function PublicEventContent({
           <CardDescription>{event.location}</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-2 text-sm">
-          <p>{new Date(event.eventAt).toLocaleString("ko-KR")}</p>
+          <p>{new Date(event.event_at).toLocaleString("ko-KR")}</p>
           <p>{event.notice}</p>
-          {event.feeInfo && (
-            <p className="text-muted-foreground">{event.feeInfo}</p>
+          {event.fee_info && (
+            <p className="text-muted-foreground">{event.fee_info}</p>
           )}
           <p>
             확정 인원: {confirmedCount}명
@@ -51,16 +51,16 @@ async function PublicEventContent({
           <CardTitle>정산 요약</CardTitle>
         </CardHeader>
         <CardContent className="text-sm">
-          {event.totalCost == null ? (
+          {event.total_cost == null ? (
             <p className="text-muted-foreground">정산 미확정</p>
           ) : (
             <div className="flex flex-col gap-1">
-              <p>총비용: {event.totalCost.toLocaleString("ko-KR")}원</p>
+              <p>총비용: {event.total_cost.toLocaleString("ko-KR")}원</p>
               <p>확정 인원: {confirmedCount}명</p>
               <p>
                 1인당 금액:{" "}
                 {confirmedCount > 0
-                  ? `${calculateSettlement(event.totalCost, confirmedCount).perPerson.toLocaleString("ko-KR")}원`
+                  ? `${calculateSettlement(event.total_cost, confirmedCount).perPerson.toLocaleString("ko-KR")}원`
                   : "확정 인원 없음"}
               </p>
             </div>
