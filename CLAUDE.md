@@ -51,6 +51,7 @@ Supabase 마이그레이션은 `supabase/migrations/`에 SQL 파일로 관리한
 ### 데이터베이스
 
 `supabase/migrations/`에 마이그레이션이 순서대로 쌓인다. 현재:
+
 - `20260704000000_create_profiles.sql` — `public.profiles` 테이블(`auth.users` FK, `username` unique, RLS 활성화). `handle_new_user()` 트리거(security definer)가 `auth.users` INSERT 시 프로필을 자동 생성. RLS 정책상 INSERT/DELETE는 직접 허용되지 않고(트리거로만 생성), UPDATE는 본인만 가능.
 
 `app/instruments/`는 Supabase `instruments` 테이블을 조회하는 데모/튜토리얼 페이지(Server Component + Suspense) — 스타터킷의 학습용 예제.
