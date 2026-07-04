@@ -34,7 +34,7 @@ export default function AdminEventsPage() {
     <div className="space-y-4">
       <div className="space-y-1">
         <h1 className="text-xl font-semibold">이벤트 관리</h1>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           전체 이벤트 목록을 검색하고 상태별로 확인하세요.
         </p>
       </div>

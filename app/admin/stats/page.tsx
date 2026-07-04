@@ -27,7 +27,7 @@ export default function AdminStatsPage() {
     <div className="space-y-6">
       <div className="space-y-1">
         <h1 className="text-xl font-semibold">통계 분석</h1>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           월별 이벤트 추이와 카테고리별 분포를 확인하세요.
         </p>
       </div>

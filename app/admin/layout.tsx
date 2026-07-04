@@ -25,7 +25,7 @@ export default function AdminLayout({
   return (
     <div className="flex min-h-svh w-full">
       {/* 좌측 고정 사이드바 - 데스크톱 전용, 폭 제약 없이 넓은 화면 활용 */}
-      <aside className="flex h-svh w-64 shrink-0 flex-col border-r bg-muted/20">
+      <aside className="bg-muted/20 flex h-svh w-64 shrink-0 flex-col border-r">
         {/* 사이드바 상단: 관리자 콘솔 타이틀 + 목업 경고 배지 */}
         <div className="flex h-14 shrink-0 items-center justify-between px-4">
           <span className="text-sm font-semibold">관리자 콘솔</span>
@@ -44,7 +44,7 @@ export default function AdminLayout({
             <Link
               key={href}
               href={href}
-              className="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              className="text-muted-foreground hover:bg-accent hover:text-accent-foreground flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-colors"
             >
               <Icon className="size-4 shrink-0" />
               {label}

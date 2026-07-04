@@ -18,11 +18,11 @@ interface CategoryPieChartProps {
 
 // 프로젝트 CSS 변수(app/globals.css)에 정의된 차트 팔레트 - 라이트/다크 모두 대응
 const CHART_COLORS = [
-  "hsl(var(--chart-1))",
-  "hsl(var(--chart-2))",
-  "hsl(var(--chart-3))",
-  "hsl(var(--chart-4))",
-  "hsl(var(--chart-5))",
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
 ];
 
 export function CategoryPieChart({ data }: CategoryPieChartProps) {
@@ -49,12 +49,12 @@ export function CategoryPieChart({ data }: CategoryPieChartProps) {
         </Pie>
         <Tooltip
           contentStyle={{
-            backgroundColor: "hsl(var(--popover))",
-            borderColor: "hsl(var(--border))",
+            backgroundColor: "var(--popover)",
+            borderColor: "var(--border)",
             borderRadius: "var(--radius)",
             fontSize: 12,
           }}
-          labelStyle={{ color: "hsl(var(--popover-foreground))" }}
+          labelStyle={{ color: "var(--popover-foreground)" }}
         />
         <Legend verticalAlign="bottom" wrapperStyle={{ fontSize: 12 }} />
       </PieChart>

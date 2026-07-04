@@ -6,7 +6,7 @@ export default function MobileLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="mx-auto min-h-screen w-full max-w-[430px] border-x border-border">
+    <div className="border-border mx-auto min-h-screen w-full max-w-[430px] border-x">
       {children}
     </div>
   );

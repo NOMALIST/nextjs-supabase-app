@@ -67,7 +67,7 @@ export function EventDashboard({
         <CardContent>
           <div className="flex flex-col gap-2">
             {rsvps.length === 0 && (
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 아직 RSVP가 없습니다.
               </p>
             )}
@@ -79,7 +79,7 @@ export function EventDashboard({
                 <div className="flex flex-col">
                   <span>{rsvp.name}</span>
                   {rsvp.contact && (
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-muted-foreground text-xs">
                       {rsvp.contact}
                     </span>
                   )}

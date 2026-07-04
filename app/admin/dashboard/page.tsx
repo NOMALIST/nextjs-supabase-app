@@ -28,7 +28,7 @@ export default function AdminDashboardPage() {
     <div className="space-y-6">
       <div className="space-y-1">
         <h1 className="text-xl font-semibold">대시보드</h1>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           전체 서비스 핵심 지표와 최근 이벤트 현황을 확인하세요.
         </p>
       </div>
@@ -88,7 +88,7 @@ export default function AdminDashboardPage() {
                   <span className="truncate text-sm font-medium">
                     {event.title}
                   </span>
-                  <span className="truncate text-xs text-muted-foreground">
+                  <span className="text-muted-foreground truncate text-xs">
                     주최자 {event.hostName}
                   </span>
                 </div>
@@ -96,7 +96,7 @@ export default function AdminDashboardPage() {
                   <Badge variant={statusVariant[event.status]}>
                     {event.status}
                   </Badge>
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-muted-foreground text-xs">
                     {event.attendeeCount}
                     {event.capacity != null ? ` / ${event.capacity}` : ""}명
                   </span>

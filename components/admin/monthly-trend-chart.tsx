@@ -28,7 +28,7 @@ export function MonthlyTrendChart({ data }: MonthlyTrendChartProps) {
           dataKey="month"
           tick={{ fontSize: 11 }}
           className="fill-muted-foreground"
-          axisLine={{ stroke: "hsl(var(--border))" }}
+          axisLine={{ stroke: "var(--border)" }}
           tickLine={false}
         />
         <YAxis
@@ -40,24 +40,24 @@ export function MonthlyTrendChart({ data }: MonthlyTrendChartProps) {
         />
         <Tooltip
           contentStyle={{
-            backgroundColor: "hsl(var(--popover))",
-            borderColor: "hsl(var(--border))",
+            backgroundColor: "var(--popover)",
+            borderColor: "var(--border)",
             borderRadius: "var(--radius)",
             fontSize: 12,
           }}
-          labelStyle={{ color: "hsl(var(--popover-foreground))" }}
+          labelStyle={{ color: "var(--popover-foreground)" }}
         />
         <Legend wrapperStyle={{ fontSize: 12 }} />
         <Bar
           dataKey="eventCount"
           name="이벤트 생성 수"
-          fill="hsl(var(--chart-1))"
+          fill="var(--chart-1)"
           radius={[4, 4, 0, 0]}
         />
         <Bar
           dataKey="rsvpCount"
           name="RSVP 수"
-          fill="hsl(var(--chart-2))"
+          fill="var(--chart-2)"
           radius={[4, 4, 0, 0]}
         />
       </BarChart>

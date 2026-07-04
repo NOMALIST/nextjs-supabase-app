@@ -13,7 +13,7 @@ export default function ProtectedLayout({
 }) {
   return (
     <main className="flex min-h-screen flex-col">
-      <nav className="flex h-16 w-full items-center justify-between border-b border-b-foreground/10 px-4 text-sm">
+      <nav className="border-b-foreground/10 flex h-16 w-full items-center justify-between border-b px-4 text-sm">
         <div className="flex items-center gap-5 font-semibold">
           <Link href={"/"}>Next.js Supabase Starter</Link>
           <div className="flex items-center gap-2">

@@ -42,13 +42,13 @@ async function EventsList() {
       <div className="grid gap-4">
         {mockEvents.map((event) => (
           <Link key={event.id} href={`/events/${event.id}`}>
-            <Card className="h-full transition-colors hover:bg-accent">
+            <Card className="hover:bg-accent h-full transition-colors">
               <CardHeader>
                 <CardTitle>{event.title}</CardTitle>
                 <CardDescription>{event.location}</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   {new Date(event.event_at).toLocaleString("ko-KR")}
                 </p>
               </CardContent>
