@@ -54,7 +54,8 @@ export function LoginForm({
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            이메일과 비밀번호를 입력해 로그인하세요. 관리자 계정으로 로그인하면
+            관리 콘솔로 이동합니다.
           </CardDescription>
         </CardHeader>
         <CardContent>
