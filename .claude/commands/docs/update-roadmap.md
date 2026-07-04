@@ -1,12 +1,12 @@
 ---
-description: 'shrimp-task-manager의 완료된 태스크를 기반으로 ROADMAP.md의 체크박스와 상태 배지를 업데이트합니다'
+description: "shrimp-task-manager의 완료된 태스크를 기반으로 ROADMAP.md의 체크박스와 상태 배지를 업데이트합니다"
 allowed-tools:
   [
-    'Read',
-    'Edit',
-    'mcp__shrimp-task-manager__list_tasks',
-    'Bash(git diff:*)',
-    'Bash(git status:*)',
+    "Read",
+    "Edit",
+    "mcp__shrimp-task-manager__list_tasks",
+    "Bash(git diff:*)",
+    "Bash(git status:*)",
   ]
 ---
 
@@ -46,12 +46,12 @@ shrimp-task-manager에 등록된 태스크 상태를 확인하고, `docs/ROADMAP
 
 모든 하위 항목이 완료되면 섹션 헤더를 업데이트합니다:
 
-| 변경 전 | 변경 후 |
-|--------|--------|
-| `❌ 미완료` | `✅ 완료` |
-| `⚠️ 부분 완료` | `✅ 완료` |
-| `🚧 진행 중` | `✅ 완료` |
-| `— 대기` | `🚧 진행 중` (일부 완료 시) |
+| 변경 전        | 변경 후                     |
+| -------------- | --------------------------- |
+| `❌ 미완료`    | `✅ 완료`                   |
+| `⚠️ 부분 완료` | `✅ 완료`                   |
+| `🚧 진행 중`   | `✅ 완료`                   |
+| `— 대기`       | `🚧 진행 중` (일부 완료 시) |
 
 #### 진행 현황 요약 테이블
 
