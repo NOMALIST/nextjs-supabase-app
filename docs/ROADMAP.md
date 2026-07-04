@@ -46,6 +46,8 @@
 
 **목표**: DB 연동 없이 주요 화면 완성, 필요 필드 조기 발견
 
+> **관리자페이지(운영자) 정적 UI 목업 추가** (Task 017~019). 주최자(호스트)와 별개인 시스템 운영자(operator) 역할. **범위: 정적 UI만** — 실제 관리자 인증/권한 체계, 실데이터 연동, 실통계 API는 이번 범위 아님(향후 Phase 후보).
+
 - [x] **Task 001: 라우트 골격 및 주최자 레이아웃** 🟢
   - [x] 주최자 라우트 껍데기 (목록/생성·수정/관리 대시보드)
   - [x] 공개 페이지 라우트 껍데기 (slug 기반, 무인증)
@@ -72,25 +74,46 @@
   - [x] 정산 요약 공개 UI (F010) — Task 004-C
   - [x] 무인증 렌더 확인
 
+- [x] **Task 017: 관리자 로그인 & 라우트 골격 (정적 UI)** 🟢
+  - [x] 관리자 라우트 껍데기 (로그인/대시보드/이벤트·사용자 관리/통계, 주최자 라우트와 분리)
+  - [x] 관리자 로그인 페이지 정적 UI (F013) — 주최자 로그인과 별개 화면
+  - [x] 관리자 전용 레이아웃 골격 (사이드바/헤더, 관리자 메뉴 트리)
+  - [x] 목업 상태이므로 실제 인증/권한 체크 없음 (향후 Phase에서 별도 설계)
+  - [x] 빌드/라우팅 확인
+
+- [x] **Task 018: 관리자 대시보드 & 관리 테이블 정적 UI** 🟢
+  - [x] 대시보드 메인 UI — 핵심 지표 요약 카드, 최근 현황 (F014)
+  - [x] 이벤트 관리 테이블 UI — 전체 이벤트 목록/검색/필터 목업 (F015)
+  - [x] 사용자(주최자/회원) 관리 테이블 UI — 회원 목록 목업, 참여자(RSVP)는 대상 아님 (F016)
+  - [x] 하드코딩 더미 데이터로 렌더 (실데이터 연동 아님)
+  - [x] 반응형/모바일 폭 정합 확인
+
+- [x] **Task 019: 통계 분석 페이지 & Recharts 더미 차트** 🟢
+  - [x] Recharts 라이브러리 설치 (신규 의존성 추가)
+  - [x] 통계 분석 페이지 정적 UI 레이아웃 (F017)
+  - [x] 더미 데이터 기반 차트 컴포넌트 구현 (막대/파이) — 실통계 API 연동 아님
+  - [x] 차트 반응형/다크모드 스타일 정합
+  - [x] 빌드/렌더 확인
+
 ---
 
-## Phase 2: DB 스키마 확정 & 타입 재생성 🔴
+## Phase 2: DB 스키마 확정 & 타입 재생성 🟢
 
 **목표**: Phase 1 UI 기준 events/rsvps 스키마·RLS 확정, 타입 재생성
 
-- [ ] **Task 005: events / rsvps 마이그레이션 및 RLS 설계** 🔴 — 우선순위
-  - [ ] Phase 1 UI 도출 필드 기준 스키마 확정
+- [x] **Task 005: events / rsvps 마이그레이션 및 RLS 설계** 🟢
+  - [x] Phase 1 UI 도출 필드 기준 스키마 확정
     - 참고(Task 003 UI 실사용 필드): `events` — title, eventAt, location, capacity(nullable), notice, feeInfo(nullable), totalCost(nullable), slug, hostId / `rsvps` — name, contact(nullable), status(참여|불참), isPaid
-  - [ ] 신규 마이그레이션 SQL 작성
-  - [ ] `events`/`rsvps` 테이블 설계
-  - [ ] RLS 정책 설계 (본인 CRUD, anon SELECT/INSERT 범위)
-  - [ ] `slug` 유일성 보장
-  - [ ] 적용 후 `get_advisors` 점검
+  - [x] 신규 마이그레이션 SQL 작성 (`supabase/migrations/20260704000001_create_events_rsvps.sql`)
+  - [x] `events`/`rsvps` 테이블 설계
+  - [x] RLS 정책 설계 (본인 CRUD, anon SELECT/INSERT 범위)
+  - [x] `slug` 유일성 보장
+  - [x] 적용 후 `get_advisors` 점검 (initplan 성능 경고 보정 `20260704000002_optimize_events_rsvps_rls_initplan.sql`)
 
-- [ ] **Task 006: 타입 재생성 및 도메인 타입 정의** 🔴
-  - [ ] `generate_typescript_types` 재생성
-  - [ ] Phase 1 임시 타입 → 실제 DB 타입 교체
-  - [ ] 정산 계산 함수 타입 정리
+- [x] **Task 006: 타입 재생성 및 도메인 타입 정의** 🟢
+  - [x] `generate_typescript_types` 재생성
+  - [x] Phase 1 임시 타입 → 실제 DB 타입 교체
+  - [x] 정산 계산 함수 타입 정리
 
 ---
 
@@ -196,7 +219,8 @@
 - 반복 모임 그룹화 및 정기 알림
 - 참여자 계정화
 - 대기열 및 자동 정원 관리
+- **관리자페이지 실연동** — 관리자 전용 인증/권한(RBAC) 체계, 관리자용 실데이터 조회, 실통계 API 집계 (이번 MVP는 정적 UI 목업만)
 
 ---
 
-**최종 수정**: 2026-07-04
+**최종 수정**: 2026-07-05
