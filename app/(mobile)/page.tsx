@@ -1,54 +1,37 @@
-import { DeployButton } from "@/components/deploy-button";
-import { EnvVarWarning } from "@/components/env-var-warning";
-import { AuthButton } from "@/components/auth-button";
-import { Hero } from "@/components/hero";
-import { ThemeSwitcher } from "@/components/theme-switcher";
-import { ConnectSupabaseSteps } from "@/components/tutorial/connect-supabase-steps";
-import { SignUpUserSteps } from "@/components/tutorial/sign-up-user-steps";
-import { hasEnvVars } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/server";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Suspense } from "react";
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getClaims();
+  const isLoggedIn = !!data?.claims;
+
   return (
-    <main className="flex min-h-screen flex-col">
-      <nav className="border-b-foreground/10 flex h-16 w-full items-center justify-between border-b px-4 text-sm">
-        <div className="flex items-center gap-5 font-semibold">
-          <Link href={"/"}>Next.js Supabase Starter</Link>
-          <div className="flex items-center gap-2">
-            <DeployButton />
-          </div>
-        </div>
-        {!hasEnvVars ? (
-          <EnvVarWarning />
-        ) : (
-          <Suspense>
-            <AuthButton />
-          </Suspense>
-        )}
-      </nav>
-      <div className="flex flex-1 flex-col gap-12 p-5">
-        <Hero />
-        <div className="flex flex-1 flex-col gap-6">
-          <h2 className="mb-4 text-xl font-medium">Next steps</h2>
-          {hasEnvVars ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
-        </div>
-      </div>
-
-      <footer className="flex w-full flex-col items-center gap-4 border-t py-8 text-center text-xs">
-        <p>
-          Powered by{" "}
-          <a
-            href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-            target="_blank"
-            className="font-bold hover:underline"
-            rel="noreferrer"
-          >
-            Supabase
-          </a>
-        </p>
-        <ThemeSwitcher />
-      </footer>
+    <main className="flex min-h-screen flex-col items-center justify-center gap-6 p-5 text-center">
+      {isLoggedIn ? (
+        <>
+          <h1 className="text-2xl font-bold">다시 오셨네요</h1>
+          <p className="text-muted-foreground">
+            내가 만든 모임의 공지와 정산 현황을 확인해보세요.
+          </p>
+          <Button asChild>
+            <Link href="/events">내 이벤트 보기</Link>
+          </Button>
+        </>
+      ) : (
+        <>
+          <h1 className="text-2xl font-bold">
+            모임 공지부터 정산까지, 링크 하나로
+          </h1>
+          <p className="text-muted-foreground">
+            정기 모임의 공지, 참여자 관리(RSVP), 정산을 한 번에 처리하세요.
+          </p>
+          <Button asChild>
+            <Link href="/auth/login">로그인하기</Link>
+          </Button>
+        </>
+      )}
     </main>
   );
 }

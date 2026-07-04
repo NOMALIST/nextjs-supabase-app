@@ -6,9 +6,9 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get("code");
   const errorParam =
     searchParams.get("error_description") ?? searchParams.get("error");
-  let next = searchParams.get("next") ?? "/protected";
+  let next = searchParams.get("next") ?? "/";
   if (!next.startsWith("/")) {
-    next = "/protected";
+    next = "/";
   }
 
   if (errorParam) {
