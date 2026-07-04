@@ -32,8 +32,11 @@ export default function AdminStatsPage() {
         </p>
       </div>
 
-      {/* 상단 요약 - 최근 7개월 누적 합계 */}
-      <section aria-label="통계 요약" className="grid grid-cols-2 gap-3">
+      {/* 상단 요약 - 최근 7개월 누적 합계, 데스크톱 폭에서는 2열 유지(카드 2개) */}
+      <section
+        aria-label="통계 요약"
+        className="grid grid-cols-2 gap-3 lg:max-w-xl"
+      >
         <Card>
           <CardHeader className="pb-2">
             <CardDescription className="text-xs">
@@ -58,35 +61,38 @@ export default function AdminStatsPage() {
         </Card>
       </section>
 
-      {/* 월별 이벤트 추이 차트 */}
-      <section aria-label="월별 이벤트 추이">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">월별 이벤트 추이</CardTitle>
-            <CardDescription>
-              최근 7개월간 이벤트 생성 수와 RSVP 수 추이입니다.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <MonthlyTrendChart data={mockMonthlyStats} />
-          </CardContent>
-        </Card>
-      </section>
+      {/* 차트 2종 - 좁은 화면은 세로 스택, 데스크톱 폭에서는 2열 배치 */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        {/* 월별 이벤트 추이 차트 */}
+        <section aria-label="월별 이벤트 추이">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">월별 이벤트 추이</CardTitle>
+              <CardDescription>
+                최근 7개월간 이벤트 생성 수와 RSVP 수 추이입니다.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <MonthlyTrendChart data={mockMonthlyStats} />
+            </CardContent>
+          </Card>
+        </section>
 
-      {/* 카테고리별 분포 차트 */}
-      <section aria-label="카테고리별 분포">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">카테고리별 분포</CardTitle>
-            <CardDescription>
-              전체 이벤트의 카테고리별 비중입니다.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <CategoryPieChart data={mockCategoryDistribution} />
-          </CardContent>
-        </Card>
-      </section>
+        {/* 카테고리별 분포 차트 */}
+        <section aria-label="카테고리별 분포">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">카테고리별 분포</CardTitle>
+              <CardDescription>
+                전체 이벤트의 카테고리별 비중입니다.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <CategoryPieChart data={mockCategoryDistribution} />
+            </CardContent>
+          </Card>
+        </section>
+      </div>
     </div>
   );
 }

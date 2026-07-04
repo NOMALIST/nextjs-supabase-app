@@ -33,8 +33,11 @@ export default function AdminDashboardPage() {
         </p>
       </div>
 
-      {/* 핵심 지표 요약 카드 그리드 - 좁은 화면 대응 2열 */}
-      <section aria-label="핵심 지표 요약" className="grid grid-cols-2 gap-3">
+      {/* 핵심 지표 요약 카드 그리드 - 데스크톱 폭 활용을 위해 화면 크기별 컬럼 수 확장 */}
+      <section
+        aria-label="핵심 지표 요약"
+        className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4"
+      >
         {mockSummaryMetrics.map((metric) => {
           const isUp = metric.trend === "up";
           const isDown = metric.trend === "down";

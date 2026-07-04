@@ -6,8 +6,9 @@ import {
   BarChart3,
   ShieldAlert,
 } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
-// 관리자 콘솔 공통 레이아웃 - 헤더 + 사이드바(좁은 폭에서는 상단 가로 스크롤 탭) 골격
+// 관리자 콘솔 공통 레이아웃 - 좌측 고정 사이드바 + 메인 콘텐츠 2단 데스크톱 레이아웃
 // 정적 UI 목업 단계: 실제 인증/권한 체크 없음 (Post-MVP)
 const adminNavItems = [
   { href: "/admin/dashboard", label: "대시보드", icon: LayoutDashboard },
@@ -22,31 +23,42 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-svh w-full flex-col">
-      {/* 헤더: 관리자 콘솔 타이틀 + 목업 경고 배지 */}
-      <header className="flex h-14 w-full shrink-0 items-center justify-between border-b px-4">
-        <span className="text-sm font-semibold">관리자 콘솔</span>
-        <span className="flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-300">
-          <ShieldAlert className="size-3" />
-          목업
-        </span>
-      </header>
+    <div className="flex min-h-svh w-full">
+      {/* 좌측 고정 사이드바 - 데스크톱 전용, 폭 제약 없이 넓은 화면 활용 */}
+      <aside className="flex h-svh w-64 shrink-0 flex-col border-r bg-muted/20">
+        {/* 사이드바 상단: 관리자 콘솔 타이틀 + 목업 경고 배지 */}
+        <div className="flex h-14 shrink-0 items-center justify-between px-4">
+          <span className="text-sm font-semibold">관리자 콘솔</span>
+          <span className="flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-300">
+            <ShieldAlert className="size-3" />
+            목업
+          </span>
+        </div>
 
-      {/* 사이드바 내비게이션: 430px 좁은 폭 대응을 위해 상단 가로 스크롤 탭 형태로 구성 */}
-      <nav className="flex w-full shrink-0 gap-1 overflow-x-auto border-b bg-muted/40 px-2 py-2">
-        {adminNavItems.map(({ href, label, icon: Icon }) => (
-          <Link
-            key={href}
-            href={href}
-            className="flex shrink-0 items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-          >
-            <Icon className="size-3.5" />
-            {label}
-          </Link>
-        ))}
-      </nav>
+        <Separator />
 
-      <main className="flex flex-1 flex-col gap-6 p-4">{children}</main>
+        {/* 사이드바 내비게이션: 세로 메뉴 목록 */}
+        <nav aria-label="관리자 메뉴" className="flex flex-col gap-1 p-2">
+          {adminNavItems.map(({ href, label, icon: Icon }) => (
+            // TODO: 현재 경로와 일치 시 활성 스타일(bg-accent 등) 적용 로직 구현 필요
+            <Link
+              key={href}
+              href={href}
+              className="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+            >
+              <Icon className="size-4 shrink-0" />
+              {label}
+            </Link>
+          ))}
+        </nav>
+      </aside>
+
+      {/* 메인 콘텐츠 영역 - 넓은 폭 컨테이너 */}
+      <main className="flex min-w-0 flex-1 justify-center overflow-y-auto">
+        <div className="w-full max-w-screen-xl flex-1 p-6 lg:p-8">
+          {children}
+        </div>
+      </main>
     </div>
   );
 }
