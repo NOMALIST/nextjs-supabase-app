@@ -9,13 +9,17 @@ Next.js 15 (App Router) + Supabase Auth(SSR) 스타터킷. Supabase 공식 `with
 ## 명령어
 
 ```bash
-npm run dev      # 개발 서버 (localhost:3000)
-npm run build    # 프로덕션 빌드
-npm run start    # 프로덕션 서버 실행
-npm run lint     # ESLint (next/core-web-vitals + next/typescript)
+npm run dev          # 개발 서버 (localhost:3000)
+npm run build        # 프로덕션 빌드
+npm run start        # 프로덕션 서버 실행
+npm run lint         # ESLint (next/core-web-vitals + next/typescript)
+npm run typecheck    # tsc --noEmit
+npm run format       # Prettier로 전체 포맷팅 적용
+npm run format:check # Prettier 포맷팅 검사 (수정 없음)
+npm run check-all    # typecheck && lint && format:check 순차 실행 (커밋/PR 전 통합 검증용)
 ```
 
-별도의 테스트 러너나 typecheck 스크립트는 구성되어 있지 않다. 타입 체크가 필요하면 `npx tsc --noEmit`을 사용한다.
+별도의 테스트 러너는 구성되어 있지 않다.
 
 Supabase 마이그레이션은 `supabase/migrations/`에 SQL 파일로 관리한다. 로컬 Supabase 스택이나 CLI 마이그레이션 적용이 필요하면 Supabase MCP 도구(`apply_migration`, `list_migrations` 등)를 사용한다.
 
