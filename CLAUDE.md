@@ -32,9 +32,7 @@ Supabase 마이그레이션은 `supabase/migrations/`에 SQL 파일로 관리한
    - **주의**: `createServerClient` 호출과 `getClaims()` 호출 사이에 다른 코드를 넣지 말 것(세션 버그 유발, 파일 내 주석으로 경고되어 있음).
    - 미인증 사용자가 `/`, `/login*`, `/auth*` 이외 경로에 접근하면 `/auth/login`으로 redirect.
    - 반환하는 `supabaseResponse` 객체를 그대로 사용해야 쿠키 동기화가 유지된다(다른 `NextResponse`로 감싸거나 재생성 금지).
-2. **개별 페이지 레벨** — 예: `app/protected/page.tsx`에서도 다시 `getClaims()`로 인증 체크 후 실패 시 `redirect("/auth/login")` (defense-in-depth).
-
-`app/protected/layout.tsx`는 공통 nav/footer만 담당하며 자체 인증 체크는 하지 않는다 — 인증 체크는 반드시 페이지(`page.tsx`) 또는 proxy에서 수행한다.
+2. **개별 페이지 레벨** — 예: `app/(mobile)/events/page.tsx`에서도 다시 `getClaims()`로 인증 체크 후 실패 시 `redirect("/auth/login")` (defense-in-depth).
 
 `app/auth/confirm/route.ts`는 이메일 OTP 확인용 GET Route Handler. `verifyOtp` 성공 시 `next` 파라미터로 redirect, 실패 시 `/auth/error?error=...`로 redirect.
 
@@ -57,8 +55,7 @@ Supabase 마이그레이션은 `supabase/migrations/`에 SQL 파일로 관리한
 `supabase/migrations/`에 마이그레이션이 순서대로 쌓인다. 현재:
 
 - `20260704000000_create_profiles.sql` — `public.profiles` 테이블(`auth.users` FK, `username` unique, RLS 활성화). `handle_new_user()` 트리거(security definer)가 `auth.users` INSERT 시 프로필을 자동 생성. RLS 정책상 INSERT/DELETE는 직접 허용되지 않고(트리거로만 생성), UPDATE는 본인만 가능.
-
-`app/instruments/`는 Supabase `instruments` 테이블을 조회하는 데모/튜토리얼 페이지(Server Component + Suspense) — 스타터킷의 학습용 예제.
+- `20260704000001_create_events_rsvps.sql` — `public.events`/`public.rsvps` 테이블, RLS 활성화. 이 앱의 핵심 도메인 테이블.
 
 ### 환경 변수
 
