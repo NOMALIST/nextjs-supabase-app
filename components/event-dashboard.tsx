@@ -30,6 +30,7 @@ export function EventDashboard({
   );
   const [isCopied, setIsCopied] = useState(false);
   const [paidError, setPaidError] = useState<string | null>(null);
+  const [costError, setCostError] = useState<string | null>(null);
   const router = useRouter();
 
   const attending = rsvps.filter((r) => r.status === "참여");
@@ -69,6 +70,29 @@ export function EventDashboard({
 
     if (error) {
       setPaidError("입금 상태 변경에 실패했습니다.");
+      return;
+    }
+
+    router.refresh();
+  };
+
+  // 총비용 입력란에서 포커스가 벗어날 때 events.total_cost를 저장한다
+  const handleTotalCostBlur = async () => {
+    setCostError(null);
+    const value = totalCost === "" ? null : Number(totalCost);
+
+    if (value === event.total_cost) {
+      return;
+    }
+
+    const supabase = createClient();
+    const { error } = await supabase
+      .from("events")
+      .update({ total_cost: value })
+      .eq("id", event.id);
+
+    if (error) {
+      setCostError("총비용 저장에 실패했습니다.");
       return;
     }
 
@@ -160,6 +184,7 @@ export function EventDashboard({
               min={0}
               value={totalCost}
               onChange={(e) => setTotalCost(e.target.value)}
+              onBlur={handleTotalCostBlur}
             />
           </div>
           <p className="text-sm">
@@ -168,6 +193,7 @@ export function EventDashboard({
               ? `${perPerson.toLocaleString("ko-KR")}원`
               : "확정 인원 없음"}
           </p>
+          {costError && <p className="text-sm text-red-500">{costError}</p>}
           {paidError && <p className="text-sm text-red-500">{paidError}</p>}
           <div className="flex flex-col gap-2">
             {attending.length === 0 && (

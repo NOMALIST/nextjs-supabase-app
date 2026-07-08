@@ -1,14 +1,15 @@
 import { createClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Suspense } from "react";
 
-export default async function Home() {
+async function HomeContent() {
   const supabase = await createClient();
   const { data } = await supabase.auth.getClaims();
   const isLoggedIn = !!data?.claims;
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-6 p-5 text-center">
+    <>
       {isLoggedIn ? (
         <>
           <h1 className="text-2xl font-bold">다시 오셨네요</h1>
@@ -32,6 +33,16 @@ export default async function Home() {
           </Button>
         </>
       )}
+    </>
+  );
+}
+
+export default function Home() {
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center gap-6 p-5 text-center">
+      <Suspense>
+        <HomeContent />
+      </Suspense>
     </main>
   );
 }
