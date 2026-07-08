@@ -47,7 +47,19 @@ export async function updateSession(request: NextRequest) {
   const { data } = await supabase.auth.getClaims();
   const user = data?.claims;
 
-  // 관리자 페이지는 정적 UI 목업 단계 - 실인증은 Post-MVP, 현재 완전 공개 상태
+  // 관리자 라우트는 별도 로그인 화면(/admin/login)으로 리다이렉트한다.
+  // is_admin 여부(상세 권한)는 여기서 조회하지 않고 app/admin/(authenticated)/layout.tsx가
+  // 담당한다(Edge에서 DB round-trip을 늘리지 않기 위한 defense-in-depth 역할 분담).
+  if (
+    request.nextUrl.pathname.startsWith("/admin") &&
+    !request.nextUrl.pathname.startsWith("/admin/login") &&
+    !user
+  ) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/admin/login";
+    return NextResponse.redirect(url);
+  }
+
   if (
     request.nextUrl.pathname !== "/" &&
     !user &&

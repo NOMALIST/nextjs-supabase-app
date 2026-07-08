@@ -1,35 +1,35 @@
-// 관리자 콘솔 전용 UI 타입 정의 (Task 018/019)
-// 정적 목업 단계 - 실제 DB 스키마와 무관한 화면 전용 타입
+// 관리자 콘솔 도메인 타입 - lib/events/types.ts의 Tables<"..."> 재사용 패턴을 따른다.
+import { Tables } from "@/lib/supabase/database.types";
+import { EventStatus } from "./event-status";
+
+export type ProfileRow = Tables<"profiles">;
 
 // 대시보드 핵심 지표 요약 카드
 export interface AdminSummaryMetric {
   id: string;
   label: string;
   value: string;
-  change: string;
-  trend: "up" | "down" | "flat";
 }
 
-// 이벤트 관리 테이블 행
+// 이벤트 관리 테이블 행 - events 실 컬럼 + 집계/계산 파생 필드
 export interface AdminEventRow {
   id: string;
   title: string;
   hostName: string;
-  status: "예정" | "진행중" | "종료";
+  status: EventStatus;
   attendeeCount: number;
   capacity: number | null;
   eventAt: string;
   createdAt: string;
 }
 
-// 사용자(주최자/회원) 관리 테이블 행
+// 사용자(주최자/회원) 관리 테이블 행 - 활성/정지 상태는 대응 DB 컬럼이 없어 제외
 export interface AdminUserRow {
   id: string;
   name: string;
   email: string;
   eventCount: number;
   joinedAt: string;
-  status: "활성" | "정지";
 }
 
 // 통계 분석 - 월별 이벤트 생성 추이 (막대/선 차트용)

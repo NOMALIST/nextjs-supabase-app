@@ -1,21 +1,39 @@
 import Link from "next/link";
-import {
-  LayoutDashboard,
-  CalendarDays,
-  Users,
-  BarChart3,
-  ShieldAlert,
-} from "lucide-react";
+import { redirect } from "next/navigation";
+import { Suspense } from "react";
+import { LayoutDashboard, CalendarDays, Users, BarChart3 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { createClient } from "@/lib/supabase/server";
 
 // 관리자 콘솔 공통 레이아웃 - 좌측 고정 사이드바 + 메인 콘텐츠 2단 데스크톱 레이아웃
-// 정적 UI 목업 단계: 실제 인증/권한 체크 없음 (Post-MVP)
+// 이 레이아웃이 /admin/(authenticated) 하위 전체 페이지의 인증/권한 공통 관문 역할을 한다.
 const adminNavItems = [
   { href: "/admin/dashboard", label: "대시보드", icon: LayoutDashboard },
   { href: "/admin/events", label: "이벤트 관리", icon: CalendarDays },
   { href: "/admin/users", label: "사용자 관리", icon: Users },
   { href: "/admin/stats", label: "통계", icon: BarChart3 },
 ];
+
+async function AdminAuthGuard() {
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getClaims();
+
+  if (!data?.claims) {
+    redirect("/admin/login");
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("is_admin")
+    .eq("id", data.claims.sub)
+    .single();
+
+  if (!profile?.is_admin) {
+    redirect("/admin/login");
+  }
+
+  return null;
+}
 
 export default function AdminLayout({
   children,
@@ -26,13 +44,8 @@ export default function AdminLayout({
     <div className="flex min-h-svh w-full">
       {/* 좌측 고정 사이드바 - 데스크톱 전용, 폭 제약 없이 넓은 화면 활용 */}
       <aside className="bg-muted/20 flex h-svh w-64 shrink-0 flex-col border-r">
-        {/* 사이드바 상단: 관리자 콘솔 타이틀 + 목업 경고 배지 */}
-        <div className="flex h-14 shrink-0 items-center justify-between px-4">
+        <div className="flex h-14 shrink-0 items-center px-4">
           <span className="text-sm font-semibold">관리자 콘솔</span>
-          <span className="flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-300">
-            <ShieldAlert className="size-3" />
-            목업
-          </span>
         </div>
 
         <Separator />
@@ -56,6 +69,9 @@ export default function AdminLayout({
       {/* 메인 콘텐츠 영역 - 넓은 폭 컨테이너 */}
       <main className="flex min-w-0 flex-1 justify-center overflow-y-auto">
         <div className="w-full max-w-screen-xl flex-1 p-6 lg:p-8">
+          <Suspense>
+            <AdminAuthGuard />
+          </Suspense>
           {children}
         </div>
       </main>
