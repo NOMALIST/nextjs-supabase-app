@@ -17,6 +17,7 @@ export type Database = {
       events: {
         Row: {
           capacity: number | null;
+          category: string | null;
           created_at: string;
           event_at: string;
           fee_info: string | null;
@@ -30,6 +31,7 @@ export type Database = {
         };
         Insert: {
           capacity?: number | null;
+          category?: string | null;
           created_at?: string;
           event_at: string;
           fee_info?: string | null;
@@ -43,6 +45,7 @@ export type Database = {
         };
         Update: {
           capacity?: number | null;
+          category?: string | null;
           created_at?: string;
           event_at?: string;
           fee_info?: string | null;
@@ -78,6 +81,7 @@ export type Database = {
           email: string;
           full_name: string | null;
           id: string;
+          is_admin: boolean;
           updated_at: string;
           username: string;
         };
@@ -87,6 +91,7 @@ export type Database = {
           email: string;
           full_name?: string | null;
           id: string;
+          is_admin?: boolean;
           updated_at?: string;
           username: string;
         };
@@ -96,6 +101,7 @@ export type Database = {
           email?: string;
           full_name?: string | null;
           id?: string;
+          is_admin?: boolean;
           updated_at?: string;
           username?: string;
         };
@@ -141,7 +147,41 @@ export type Database = {
       };
     };
     Views: {
-      [_ in never]: never;
+      rsvps_public: {
+        Row: {
+          created_at: string | null;
+          event_id: string | null;
+          id: string | null;
+          is_paid: boolean | null;
+          name: string | null;
+          status: string | null;
+        };
+        Insert: {
+          created_at?: string | null;
+          event_id?: string | null;
+          id?: string | null;
+          is_paid?: boolean | null;
+          name?: string | null;
+          status?: string | null;
+        };
+        Update: {
+          created_at?: string | null;
+          event_id?: string | null;
+          id?: string | null;
+          is_paid?: boolean | null;
+          name?: string | null;
+          status?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "rsvps_event_id_fkey";
+            columns: ["event_id"];
+            isOneToOne: false;
+            referencedRelation: "events";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
     Functions: {
       [_ in never]: never;
