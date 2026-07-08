@@ -1,8 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
+import { redirect, notFound } from "next/navigation";
 import { Suspense } from "react";
 import { EventForm } from "@/components/event-form";
-import { mockEvents } from "@/lib/events/mock-data";
 
 async function EditEventContent({
   params,
@@ -17,7 +16,16 @@ async function EditEventContent({
   }
 
   const { id } = await params;
-  const event = mockEvents.find((e) => e.id === id);
+  const { data: event } = await supabase
+    .from("events")
+    .select("*")
+    .eq("id", id)
+    .eq("host_id", data.claims.sub)
+    .single();
+
+  if (!event) {
+    notFound();
+  }
 
   return (
     <div className="w-full max-w-sm">

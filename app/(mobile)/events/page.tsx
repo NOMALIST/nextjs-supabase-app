@@ -10,7 +10,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { mockEvents } from "@/lib/events/mock-data";
 
 async function EventsList() {
   const supabase = await createClient();
@@ -20,7 +19,13 @@ async function EventsList() {
     redirect("/auth/login");
   }
 
-  if (mockEvents.length === 0) {
+  const { data: events } = await supabase
+    .from("events")
+    .select("*")
+    .eq("host_id", data.claims.sub)
+    .order("created_at", { ascending: false });
+
+  if (!events || events.length === 0) {
     return (
       <div className="flex flex-col items-center gap-4 py-16 text-center">
         <p className="text-muted-foreground">아직 만든 이벤트가 없습니다.</p>
@@ -40,7 +45,7 @@ async function EventsList() {
         </Button>
       </div>
       <div className="grid gap-4">
-        {mockEvents.map((event) => (
+        {events.map((event) => (
           <Link key={event.id} href={`/events/${event.id}`}>
             <Card className="hover:bg-accent h-full transition-colors">
               <CardHeader>

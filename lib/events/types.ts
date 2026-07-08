@@ -3,3 +3,5 @@ import { Tables } from "@/lib/supabase/database.types";
 
 export type EventRow = Tables<"events">;
 export type RsvpRow = Tables<"rsvps">;
+
+export type RsvpStatus = "참여" | "불참";

@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { mockEvents, mockRsvps } from "@/lib/events/mock-data";
+import { createClient } from "@/lib/supabase/server";
 import {
   Card,
   CardContent,
@@ -17,15 +17,25 @@ async function PublicEventContent({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const event = mockEvents.find((e) => e.slug === slug);
+  const supabase = await createClient();
+
+  const { data: event } = await supabase
+    .from("events")
+    .select("*")
+    .eq("slug", slug)
+    .single();
 
   if (!event) {
     notFound();
   }
 
-  const confirmedCount = mockRsvps.filter(
-    (r) => r.event_id === event.id && r.status === "참여"
-  ).length;
+  const { count } = await supabase
+    .from("rsvps_public")
+    .select("*", { count: "exact", head: true })
+    .eq("event_id", event.id)
+    .eq("status", "참여");
+
+  const confirmedCount = count ?? 0;
 
   return (
     <div className="flex w-full flex-col gap-6 p-5">
@@ -67,7 +77,7 @@ async function PublicEventContent({
           )}
         </CardContent>
       </Card>
-      <RsvpForm />
+      <RsvpForm eventId={event.id} />
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect, notFound } from "next/navigation";
 import { Suspense } from "react";
-import { mockEvents, mockRsvps } from "@/lib/events/mock-data";
 import { EventDashboard } from "@/components/event-dashboard";
 
 async function EventDashboardContent({
@@ -17,15 +16,23 @@ async function EventDashboardContent({
   }
 
   const { id } = await params;
-  const event = mockEvents.find((e) => e.id === id);
+  const { data: event } = await supabase
+    .from("events")
+    .select("*")
+    .eq("id", id)
+    .eq("host_id", data.claims.sub)
+    .single();
 
   if (!event) {
     notFound();
   }
 
-  const rsvps = mockRsvps.filter((r) => r.event_id === id);
+  const { data: rsvps } = await supabase
+    .from("rsvps")
+    .select("*")
+    .eq("event_id", id);
 
-  return <EventDashboard event={event} rsvps={rsvps} />;
+  return <EventDashboard event={event} rsvps={rsvps ?? []} />;
 }
 
 export default function EventDashboardPage({
